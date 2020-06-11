@@ -554,4 +554,10 @@ class WebviewManager {
             webView.stopLoading();
         }
     }
+
+    void requestFocus(MethodCall call, MethodChannel.Result result) {
+        if (webView != null) {
+            webView.requestFocus(View.FOCUS_DOWN);
+        }
+    }
 }

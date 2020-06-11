@@ -62,6 +62,9 @@ static NSString *const CHANNEL_NAME = @"flutter_webview_plugin";
     } else if ([@"stopLoading" isEqualToString:call.method]) {
         [self stopLoading];
         result(nil);
+    } else if ([@"requestFocus" isEqualToString:call.method]) {
+        // Do nothing
+        result(nil);
     } else if ([@"cleanCookies" isEqualToString:call.method]) {
         [self cleanCookies:result];
     } else if ([@"back" isEqualToString:call.method]) {

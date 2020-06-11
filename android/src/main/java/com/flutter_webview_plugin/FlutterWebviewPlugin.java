@@ -82,6 +82,9 @@ public class FlutterWebviewPlugin implements MethodCallHandler, PluginRegistry.A
             case "stopLoading":
                 stopLoading(call, result);
                 break;
+            case "requestFocus":
+                requestFocus(call, result);
+                break;
             case "cleanCookies":
                 cleanCookies(call, result);
                 break;
@@ -190,6 +193,13 @@ public class FlutterWebviewPlugin implements MethodCallHandler, PluginRegistry.A
     private void stopLoading(MethodCall call, MethodChannel.Result result) {
         if (webViewManager != null) {
             webViewManager.stopLoading(call, result);
+        }
+        result.success(null);
+    }
+
+    private void requestFocus(MethodCall call, MethodChannel.Result result) {
+        if (webViewManager != null) {
+            webViewManager.requestFocus(call, result);
         }
         result.success(null);
     }
