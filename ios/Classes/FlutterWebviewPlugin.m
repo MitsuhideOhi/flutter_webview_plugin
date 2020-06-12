@@ -341,8 +341,8 @@ static NSString *const CHANNEL_NAME = @"flutter_webview_plugin";
 }
 - (void)getScreenshot:(FlutterMethodCall*)call result:(FlutterResult)result {
     if (self.webview != nil) {
-        UIGraphicsBeginImageContextWithOptions(_webView.bounds.size, YES, 0);
-        [_webView drawViewHierarchyInRect:_webView.bounds afterScreenUpdates:YES];
+        UIGraphicsBeginImageContextWithOptions(self.webview.bounds.size, YES, 0);
+        [self.webview drawViewHierarchyInRect:self.webview.bounds afterScreenUpdates:YES];
         UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         NSData *imageData = UIImagePNGRepresentation(image);
