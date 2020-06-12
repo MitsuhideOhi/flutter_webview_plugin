@@ -1,6 +1,8 @@
 package com.flutter_webview_plugin;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -11,6 +13,7 @@ import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.util.Base64;
 import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.SslErrorHandler;
@@ -34,6 +37,7 @@ import java.io.File;
 import java.util.Date;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.io.ByteArrayOutputStream;
 
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -553,5 +557,20 @@ class WebviewManager {
         if (webView != null) {
             webView.stopLoading();
         }
+    }
+
+    private String base64encode(Bitmap bitmap) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);   
+		byte[] b = baos.toByteArray(); 
+		return Base64.encodeToString(b, Base64.NO_WRAP);
+	}
+    
+    String getScreenshot() {
+        webView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(webView.getDrawingCache());
+        webView.setDrawingCacheEnabled(false);
+        String encoded = base64encode(bitmap);
+        return encoded;
     }
 }

@@ -62,6 +62,8 @@ static NSString *const CHANNEL_NAME = @"flutter_webview_plugin";
     } else if ([@"stopLoading" isEqualToString:call.method]) {
         [self stopLoading];
         result(nil);
+    } else if ([@"getScreenshot" isEqualToString:call.method]) {
+        [self getScreenshot:call result:result];
     } else if ([@"cleanCookies" isEqualToString:call.method]) {
         [self cleanCookies:result];
     } else if ([@"back" isEqualToString:call.method]) {
@@ -335,6 +337,19 @@ static NSString *const CHANNEL_NAME = @"flutter_webview_plugin";
 - (void)stopLoading {
     if (self.webview != nil) {
         [self.webview stopLoading];
+    }
+}
+- (void)getScreenshot:(FlutterMethodCall*)call result:(FlutterResult)result {
+    if (self.webview != nil) {
+        UIGraphicsBeginImageContextWithOptions(_webView.bounds.size, YES, 0);
+        [_webView drawViewHierarchyInRect:_webView.bounds afterScreenUpdates:YES];
+        UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        NSData *imageData = UIImagePNGRepresentation(image);
+        NSString *encoded = [imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
+        result(encoded);
+    } else {
+        result(nil);
     }
 }
 - (void)back {

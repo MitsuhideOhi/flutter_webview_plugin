@@ -82,6 +82,9 @@ public class FlutterWebviewPlugin implements MethodCallHandler, PluginRegistry.A
             case "stopLoading":
                 stopLoading(call, result);
                 break;
+            case "getScreenshot":
+                getScreenshot(call, result);
+                break;
             case "cleanCookies":
                 cleanCookies(call, result);
                 break;
@@ -192,6 +195,14 @@ public class FlutterWebviewPlugin implements MethodCallHandler, PluginRegistry.A
             webViewManager.stopLoading(call, result);
         }
         result.success(null);
+    }
+
+    private void getScreenshot(MethodCall call, MethodChannel.Result result) {
+        if (webViewManager != null) {
+            result.success(webViewManager.getScreenshot());
+        } else {
+            result.error("Webview is null", null, null);
+        }
     }
 
     void close(MethodCall call, MethodChannel.Result result) {
